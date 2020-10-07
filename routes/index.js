@@ -11,6 +11,7 @@ module.exports = (app) => {
     const router = express.Router();
 
     require(`./${routeName}`)(router);
+    console.log(routeName);
 
     app.use(`/api/v2/${changeCase.paramCase(routeName)}`, router);
   });

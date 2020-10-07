@@ -15,38 +15,15 @@ module.exports = {
   }),
   findOrCreateDomain: params => db.domains.findOrCreate(params),
   findOneDomain: (query = {}) => db.domains.findOne({
-    include: [
-      // {
-      //   model: Project,
-      //   as: 'projects',
-      //   attributes: ['id', 'title', 'description'],
-      //   through: {
-      //     attributes: []
-      //   }
-      // },
-      // {
-      //   model: Plan,
-      //   as: 'plan',
-      //   attributes: {
-      //     exclude: ['createdAt', 'updatedAt']
-      //   },
-      //   include: [
-      //     {
-      //       model: Task,
-      //       as: 'tasks',
-      //       attributes: {
-      //         exclude: ['createdAt', 'updatedAt']
-      //       },
-      //       through: {
-      //         as: 'taskInfo',
-      //         attributes: {
-      //           exclude: ['plan_id', 'task_id', 'createdAt', 'updatedAt']
-      //         }
-      //       }
-      //     }
-      //   ]
-      // }
-    ],
+    where: {
+      id: query.id
+    },
+    include: [{
+      model: db.competencies,
+      include: [{
+        model: db.skills
+      }]
+    }],
     attributes: {
       exclude: ['encryptedPassword', 'createdAt', 'updatedAt']
     },
@@ -55,5 +32,7 @@ module.exports = {
   updateDomain: (payload, query = {}) => db.domains.update(payload, {
     returning: true,
     ...query
-  })
+  }),
+
+  deleteDomain: (query = {}) => db.domains.destroy(query)
 };

@@ -23,7 +23,45 @@ const postCompetency = async (req, res, next) => {
   }
 };
 
+const getOneCompetency = async (req, res, next) => {
+  try {
+    const competency = await competencyService.findOneCompetency(req.params);
+    return res.json({ competency });
+  } catch (err) {
+    next({ ...err, filename: __dirname });
+  }
+};
+
+const updateCompetency = async (req, res, next) => {
+  try {
+    const competency = await competencyService.updateCompetency(req.body, {
+      where: {
+        id: req.params.id
+      }
+    });
+    return res.json({ competency });
+  } catch (err) {
+    next({ ...err, filename: __dirname });
+  }
+};
+
+const deleteCompetency = async (req, res, next) => {
+  try {
+    const deletedCompetency = await competencyService.deleteCompetency({
+      where: {
+        id: req.params.id
+      }
+    });
+    return res.json({ deletedCompetency });
+  } catch (err) {
+    next({ ...err, filename: __dirname });
+  }
+};
+
 module.exports = {
+  getOneCompetency,
+  updateCompetency,
+  deleteCompetency,
   getCompetencies,
   postCompetency
 };

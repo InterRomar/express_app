@@ -1,4 +1,3 @@
-// import * as bcrypt from 'bcryptjs';
 const db = require('../models');
 
 module.exports = {
@@ -11,5 +10,23 @@ module.exports = {
     },
     ...options
   }),
-  findOrCreateCompetency: params => db.competencies.findOrCreate(params)
+  findOrCreateCompetency: params => db.competencies.findOrCreate(params),
+  findOneCompetency: (query = {}) => db.competencies.findOne({
+    where: {
+      id: query.id
+    },
+    include: [{
+      model: db.skills
+    }],
+    attributes: {
+      exclude: ['encryptedPassword', 'createdAt', 'updatedAt']
+    },
+    ...query
+  }),
+  updateCompetency: (payload, query = {}) => db.competencies.update(payload, {
+    returning: true,
+    ...query
+  }),
+
+  deleteCompetency: (query = {}) => db.competencies.destroy(query)
 };

@@ -9,6 +9,15 @@ const getDomains = async (req, res, next) => {
   }
 };
 
+const getOneDomain = async (req, res, next) => {
+  try {
+    const domain = await domainService.findOneDomain(req.params);
+    return res.json({ domain });
+  } catch (err) {
+    next({ ...err, filename: __dirname });
+  }
+};
+
 const postDomain = async (req, res, next) => {
   try {
     const domain = await domainService.findOrCreateDomain({
@@ -23,8 +32,36 @@ const postDomain = async (req, res, next) => {
   }
 };
 
+const updateDomain = async (req, res, next) => {
+  try {
+    const domain = await domainService.updateDomain(req.body, {
+      where: {
+        id: req.params.id
+      }
+    });
+    return res.json({ domain });
+  } catch (err) {
+    next({ ...err, filename: __dirname });
+  }
+};
+
+const deleteDomain = async (req, res, next) => {
+  try {
+    const deletedDomain = await domainService.deleteDomain({
+      where: {
+        id: req.params.id
+      }
+    });
+    return res.json({ deletedDomain });
+  } catch (err) {
+    next({ ...err, filename: __dirname });
+  }
+};
 
 module.exports = {
   getDomains,
-  postDomain
+  getOneDomain,
+  postDomain,
+  updateDomain,
+  deleteDomain
 };

@@ -10,7 +10,9 @@
     "lint": "eslint . -c .eslintrc.js --ext .js,.jsx --ignore-path .gitignore",
     "migrate": "sequelize db:migrate",
     "migration:undo": "sequelize db:migrate:undo",
-    "migration:generate": "sequelize migration:generate"
+    "migration:generate": "sequelize migration:generate",
+    "seed:gen": "sequelize seed:generate --name",
+    "seed:run": "sequelize db:seed:all"
   },
   "husky": {
     "hooks": {

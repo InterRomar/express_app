@@ -20,7 +20,45 @@ const postZohoResponse = async (req, res, next) => {
   }
 };
 
+const getOneZohoResponse = async (req, res, next) => {
+  try {
+    const zoho_response = await zohoResponsesService.findOneZohoResponse(req.params);
+    return res.json({ zoho_response });
+  } catch (err) {
+    next({ ...err, filename: __dirname });
+  }
+};
+
+const updateZohoResponse = async (req, res, next) => {
+  try {
+    const zoho_response = await zohoResponsesService.updateZohoResponse(req.body, {
+      where: {
+        id: req.params.id
+      }
+    });
+    return res.json({ zoho_response });
+  } catch (err) {
+    next({ ...err, filename: __dirname });
+  }
+};
+
+const deleteZohoResponse = async (req, res, next) => {
+  try {
+    const deletedZohoResponse = await zohoResponsesService.deleteZohoResponse({
+      where: {
+        id: req.params.id
+      }
+    });
+    return res.json({ deletedZohoResponse });
+  } catch (err) {
+    next({ ...err, filename: __dirname });
+  }
+};
+
 module.exports = {
+  getOneZohoResponse,
+  updateZohoResponse,
+  deleteZohoResponse,
   getZohoResponses,
   postZohoResponse
 };

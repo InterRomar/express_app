@@ -15,13 +15,49 @@ const postAIResult = async (req, res, next) => {
 
     return res.json({ ai_result });
   } catch (err) {
-    console.log(err);
+    next({ ...err, filename: __dirname });
+  }
+};
 
+const getOneAIResult = async (req, res, next) => {
+  try {
+    const ai_result = await AIResultService.findOneAIResults(req.params);
+    return res.json({ ai_result });
+  } catch (err) {
+    next({ ...err, filename: __dirname });
+  }
+};
+
+const updateAIResult = async (req, res, next) => {
+  try {
+    const ai_result = await AIResultService.updateAIResult(req.body, {
+      where: {
+        id: req.params.id
+      }
+    });
+    return res.json({ ai_result });
+  } catch (err) {
+    next({ ...err, filename: __dirname });
+  }
+};
+
+const deleteAIResult = async (req, res, next) => {
+  try {
+    const deletedAIResult = await AIResultService.deleteAIResult({
+      where: {
+        id: req.params.id
+      }
+    });
+    return res.json({ deletedAIResult });
+  } catch (err) {
     next({ ...err, filename: __dirname });
   }
 };
 
 module.exports = {
+  getOneAIResult,
+  updateAIResult,
+  deleteAIResult,
   getAIResults,
   postAIResult
 };

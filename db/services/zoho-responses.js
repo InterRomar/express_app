@@ -8,5 +8,20 @@ module.exports = {
     },
     ...options
   }),
-  createZohoResponse: params => db.zoho_responses.create(params)
+  createZohoResponse: params => db.zoho_responses.create(params),
+  findOneZohoResponse: (query = {}) => db.zoho_responses.findOne({
+    where: {
+      id: query.id
+    },
+    attributes: {
+      exclude: ['encryptedPassword', 'createdAt', 'updatedAt']
+    },
+    ...query
+  }),
+  updateZohoResponse: (payload, query = {}) => db.zoho_responses.update(payload, {
+    returning: true,
+    ...query
+  }),
+
+  deleteZohoResponse: (query = {}) => db.zoho_responses.destroy(query)
 };

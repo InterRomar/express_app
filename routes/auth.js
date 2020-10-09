@@ -6,7 +6,7 @@ const isAuthorized = require('../middlewares/isAuthorized');
 // const passwordCheck = require('../middlewares/passwordCheck');
 
 module.exports = (router) => {
-  router.post('/sign-in', validators('auth.signin'), controller.singIn);
+  router.post('/sign-in', controller.singIn);
   router.post('/sign-up', controller.singUp);
   router.post('/password-restore', validators('auth.password-restore'), controller.passwordRestore);
   router.post('/password-reset', validators('auth.password-reset'), controller.passwordReset);

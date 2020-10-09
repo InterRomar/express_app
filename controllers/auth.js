@@ -2,7 +2,6 @@ const moment = require('moment');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const _omit = require('lodash.omit');
-const { Op } = require('sequelize');
 const config = require('../config');
 const { transporter } = require('../utils');
 const { USER_FIELDS_QUERY_EXCLUDES } = require('../utils/contants');
@@ -197,13 +196,10 @@ const getUserByToken = (req, res, next) => {
 const singIn = async (req, res, next) => {
   const { device } = req.headers;
   try {
+    console.log(req.body);
     let user = await userService.findOneUser({
       where: {
-        [Op.or]: [{
-          login: req.body.login
-        }, {
-          email: req.body.login
-        }]
+        email: req.body.email
       }
     });
     if (!user) {

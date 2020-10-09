@@ -7,7 +7,6 @@ module.exports = async (req, res, next) => {
     if (req.method === 'OPTIONS') {
       return next();
     }
-
     if (!req.cookies.accessToken) {
       return res.status(401).json({
         errors: [
@@ -21,7 +20,7 @@ module.exports = async (req, res, next) => {
     const token = req.cookies.accessToken;
     const decoded = jwt.verify(token, config.common.jwtSecret);
 
-    const user = await db.user.findOne({ where: { id: decoded.userId } });
+    const user = await db.users.findOne({ where: { id: decoded.userId } });
     if (!user) {
       return res.status(401).json({
         errors: [
